@@ -350,7 +350,7 @@ function enableFinish(){
 function openForm(e){
   if(e) e.preventDefault();
   if(roundsCompleted < 2){ alert('Please complete at least 2 rounds across games to proceed to the feedback form.'); return; }
-  window.open(GOOGLE_FORM, '_blank');
+  window.location.href = 'player.html';
 }
 
 /* ===== game selector ===== */
