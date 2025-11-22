@@ -327,7 +327,7 @@
 <script>
 /* ========= Shared progress tracking ========= */
 let roundsCompleted = 0;
-const GOOGLE_FORM = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+const GOOGLE_FORM = 'https://forms.gle/4TwhDN4BnvaDf3V48';
 
 function updateRoundUI(){
   document.getElementById('roundCount').textContent = roundsCompleted;
@@ -350,7 +350,7 @@ function enableFinish(){
 function openForm(e){
   if(e) e.preventDefault();
   if(roundsCompleted < 2){ alert('Please complete at least 2 rounds across games to proceed to the feedback form.'); return; }
-  window.location.href = 'player.html';
+  window.open(GOOGLE_FORM, '_blank');
 }
 
 /* ===== game selector ===== */
