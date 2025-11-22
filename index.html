@@ -20,7 +20,6 @@
     --radius:10px;
     --mono: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
   }
-
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
@@ -28,31 +27,26 @@
     -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     -webkit-tap-highlight-color: transparent;
   }
-
   .wrap{max-width:1200px;margin:18px auto;padding:14px;display:grid;grid-template-columns:1fr;gap:12px}
   header{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
   .brand{display:flex;align-items:center;gap:12px;padding:8px 12px;background:linear-gradient(180deg,var(--glass),rgba(255,255,255,0.02));border-radius:10px;box-shadow:var(--shadow)}
   .logo{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:18px}
   h1{margin:0;font-size:16px;color:var(--text)}
   p.lead{margin:0;color:var(--muted);font-size:12px}
-
   .top-cta{margin-left:auto;display:flex;align-items:center;gap:10px}
   .rounds-summary{color:var(--muted);font-weight:700;font-size:13px;display:flex;gap:10px;align-items:center}
   .finish-cta{display:flex;gap:8px;align-items:center}
   .finish-btn{background:linear-gradient(90deg,var(--accent-2),var(--accent-1));color:white;border:none;padding:8px 10px;border-radius:8px;font-weight:700;cursor:pointer;box-shadow:0 8px 18px rgba(0,0,0,0.45)}
   .finish-btn[disabled]{opacity:0.45;cursor:default;box-shadow:none}
-
   main{background:var(--card);border-radius:10px;padding:12px;box-shadow:var(--shadow)}
   .card{background:transparent;border-radius:8px;padding:10px;border:1px solid rgba(255,255,255,0.03)}
   .card h3{margin:0;font-size:13px;color:var(--text)}
   .card p{margin:6px 0 0;color:var(--muted);font-size:12px}
-
   .controls{display:flex;gap:8px;align-items:center;margin-top:8px}
   .btn{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;background:var(--accent-1);color:white;border:none;cursor:pointer;font-weight:600}
   .btn.ghost{background:transparent;color:var(--accent-1);border:1px dashed rgba(108,142,245,0.06)}
   .btn.small{padding:6px 8px;font-size:12px;border-radius:8px}
   .mode{padding:6px 8px;border-radius:8px;background:#0b3b48;border:1px solid rgba(255,255,255,0.02);font-weight:600;color:var(--muted);cursor:pointer}
-
   /* Game area compact */
   #play-area{margin-top:10px;display:flex;gap:10px;flex-direction:column}
   .game-panel{display:none;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-radius:8px;padding:10px;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,0.03)}
@@ -62,28 +56,24 @@
   .game-title .dot{width:12px;height:12px;border-radius:3px;display:inline-block}
   .dot.t1{background:var(--accent-1)} .dot.t2{background:var(--accent-2)} .dot.t3{background:var(--accent-3)} .dot.t4{background:var(--accent-4)}
   .game-body{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start}
-
   /* TicTacToe */
-  .t3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:260px;height:260px}
+  .t3{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:8px;width:260px;height:260px}
   .cell{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center;font-size:40px;border-radius:8px;cursor:pointer;user-select:none;border:1px solid rgba(255,255,255,0.03);color:var(--text)}
   .tinfo{font-size:12px;color:var(--muted)}
-
   /* Simon */
   .simon-grid{display:grid;grid-template-columns:repeat(2,110px);gap:8px}
   .pad{width:110px;height:110px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:#08222b;cursor:pointer;box-shadow:0 6px 12px rgba(0,0,0,0.35)}
   .pad.red{background:linear-gradient(180deg,#ff6b6b,#ff3b3b)} .pad.green{background:linear-gradient(180deg,#2ecc71,#1aa34a)} .pad.blue{background:linear-gradient(180deg,#4da6ff,#1f6dff)} .pad.yellow{background:linear-gradient(180deg,#ffd36e,#ffbf2e)}
-
   /* Battleship compact */
   .board-wrap{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start}
   .board{display:grid;grid-template-columns:repeat(10,22px);gap:4px;padding:6px;background:rgba(255,255,255,0.02);border-radius:8px;border:1px solid rgba(255,255,255,0.03)}
   .cell-b{width:22px;height:22px;background:transparent;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text);cursor:pointer;border:1px solid rgba(255,255,255,0.03)}
-  .cell-b.miss{background:#9fd3ff;color:#01263f}     /* blue bullet */
+  .cell-b.miss{background:#9fd3ff;color:#01263f} /* blue bullet */
   .cell-b.bullet{background:#9fd3ff;color:#01263f}
   .cell-b.hit{background:#ff5a5a;color:white}
   .cell-b.sunk{background:#0b0b0b;color:#fff}
   .ship-vis{background:linear-gradient(135deg,#6fe6a6,#38c572);border-radius:3px;height:100%;width:100%}
   .status-line{font-size:12px;color:var(--muted)}
-
   /* UNO compact 2-row hand */
   .uno-area{display:flex;gap:12px;align-items:flex-start}
   .hand{display:flex;gap:6px;flex-wrap:wrap;max-height:220px;overflow:auto;padding:6px}
@@ -95,9 +85,7 @@
   /* bigger bold turn label */
   .turn-label{font-size:14px;color:var(--muted)}
   .turn-value{font-weight:700;color:var(--text);font-size:15px;margin-left:6px}
-
   footer{margin-top:6px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;flex-wrap:wrap;gap:8px}
-
   /* responsive: multi-column layout for larger screens and fluid stacking for small ones */
   @media(min-width:980px){
     .wrap{max-width:1200px}
@@ -138,7 +126,6 @@
           <p class="lead">Short strategy mini‑games to sharpen planning, focus, and decision-making</p>
         </div>
       </div>
-
       <div class="top-cta" id="topCta">
         <div class="rounds-summary">Completed rounds: <strong id="roundCountHeader">0</strong></div>
         <div class="finish-cta">
@@ -146,7 +133,6 @@
         </div>
       </div>
     </header>
-
     <main>
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
         <div>
@@ -157,7 +143,6 @@
           <div style="font-size:13px;color:var(--muted)">Rounds: <strong id="roundCount">0</strong></div>
         </div>
       </div>
-
       <div id="play-area">
         <!-- selector -->
         <div class="card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap">
@@ -172,7 +157,6 @@
             <button class="btn" data-game="uno" onclick="selectGame('uno')">UNO</button>
           </div>
         </div>
-
         <!-- Tic Tac Toe -->
         <section id="tic" class="game-panel">
           <div class="game-top">
@@ -188,12 +172,11 @@
               <div class="tinfo" id="tmsg">Your turn — X</div>
             </div>
             <div style="min-width:160px">
-              <div style="font-weight:700;margin-bottom:6px">How it works</div>
-              <div style="color:var(--muted);font-size:12px">You are X. AI O blocks/wins heuristically. Finish or press Mark Complete.</div>
+              <div style="font-weight:700;margin-bottom:6px">Tic Tac Toe</div>
+              <div style="color:var(--muted);font-size:12px;line-height:1.35">You play as X. Click an empty cell on the 3x3 grid to place your X.<br><br>The AI plays as O and will automatically respond after your move, trying to block you or win.<br><br>Aim to get three X's in a row horizontally, vertically, or diagonally before the AI does.<br><br>If the grid fills without a winner, it's a draw. To restart, press the 'Restart' button.<br><br>After finishing or if you want to count the round without completing, press 'Mark Complete'.</div>
             </div>
           </div>
         </section>
-
         <!-- Simon -->
         <section id="simon" class="game-panel">
           <div class="game-top">
@@ -214,12 +197,11 @@
               <div style="margin-top:10px" class="tinfo">Level: <strong id="sLevel">0</strong> — Best: <strong id="sBest">0</strong></div>
             </div>
             <div style="min-width:160px">
-              <div style="font-weight:700;margin-bottom:6px">Tip</div>
-              <div style="color:var(--muted);font-size:12px">Watch then repeat. Level 5 counts as a strong practice result.</div>
+              <div style="font-weight:700;margin-bottom:6px">Pattern Memory</div>
+              <div style="color:var(--muted);font-size:12px;line-height:1.35">Press 'Start' to begin. Watch the sequence of colored pads flashing (red, green, blue, or yellow).<br><br>After the sequence ends, repeat it by clicking the pads in the same order. Each correct repetition adds a new color to the sequence, increasing the level.<br><br>If you make a mistake, the level restarts but your best score is tracked.<br><br>Reach level 5 for a strong result and to count the round.<br><br>Press 'Mark Complete' if you want to count without reaching level 5.</div>
             </div>
           </div>
         </section>
-
         <!-- Battleship -->
         <section id="bship" class="game-panel">
           <div class="game-top">
@@ -249,10 +231,11 @@
             <div style="min-width:140px">
               <div class="status-line" id="bshipStatus">Press New Game to place ships and begin.</div>
               <div style="margin-top:8px" class="tinfo">Ships: Carrier(5), Battleship(4), Cruiser(3), Sub(3), Destroyer(2)</div>
+              <div style="font-weight:700;margin-top:6px">How to play</div>
+              <div style="color:var(--muted);font-size:12px;line-height:1.35">Press 'New Game' to randomly place your 5 ships on the left 10x10 grid (green squares).<br><br>Click any cell on the right enemy grid to fire a shot.<br><br>Hits show red, misses blue, sunk black.<br><br>After your turn, AI fires at your grid.<br>Sink all enemy ships (hit all their cells) to win. Ships can't overlap.<br><br>Press 'Mark Complete' after win or to count round early.</div>
             </div>
           </div>
         </section>
-
         <!-- UNO -->
         <section id="uno" class="game-panel">
           <div class="game-top">
@@ -275,14 +258,12 @@
               <button class="btn small ghost" onclick="completeRound('UNO')">Mark Complete</button>
             </div>
           </div>
-
           <div class="game-body" style="align-items:flex-start">
             <div style="flex:1;min-width:220px">
               <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
                 <div style="font-weight:700">Table</div>
                 <div class="turn-label">Turn:<span id="unoTurn" class="turn-value">—</span></div>
               </div>
-
               <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:8px">
                 <div style="min-width:90px">
                   <div style="font-size:12px;color:var(--muted)">Deck</div>
@@ -293,42 +274,39 @@
                   <div id="discard" style="min-height:56px;display:flex;align-items:center;justify-content:center"></div>
                 </div>
               </div>
-
               <div style="margin-top:6px">
                 <div style="font-weight:700">Your Hand</div>
                 <div id="playerHand" class="hand two-rows" aria-live="polite"></div>
                 <div style="margin-top:6px" class="uno-info">AI Hands — <span id="aiLabels">AI A: <strong id="aiAcount">0</strong></span></div>
               </div>
             </div>
-
-            <div style="min-width:220px">
-              <div style="font-weight:700;margin-bottom:6px">UNO rules (brief)</div>
+            <div style="min-width:260px">
+              <div style="font-weight:700;margin-bottom:6px">Rules</div>
               <div style="color:var(--muted);font-size:12px;line-height:1.35">
-                Match color or number. Action cards:
-                <ul style="margin:6px 0 0 18px;color:var(--muted)">
-                  <li><strong>S</strong> Skip the next player</li>
-                  <li><strong>R</strong> Reverse play direction</li>
-                </ul>
-                Drawing from deck ends your turn. You can pick 1 to 10 AI before starting UNO. AI behavior: plays first playable card or draws.
+Select number of AI players (1-10) from dropdown, then press 'New Match' to deal 7 cards each and start.<br><br>
+Match the top discard pile card by color or number/symbol.<br><br>
+Click a card in your hand to play it if it matches.
+If no match, click the 'Deck' to draw one card (ends your turn).<br><br>
+Action cards:<br>
+S skips the next player's turn.<br>
+R reverses the play direction (clockwise to counterclockwise or vice versa).<br><br>
+Play all your cards first to win. AI plays automatically on their turns, choosing the first playable card or drawing if none.<br><br>
+Press 'Mark Complete' after win or to count round early.
               </div>
             </div>
           </div>
         </section>
-
       </div>
     </main>
-
     <footer>
       <div style="display:flex;gap:10px;align-items:center"><div style="font-weight:700">CIIT Mind & Strategy</div><div style="color:var(--muted);font-size:12px">Play, Learn, Compete</div></div>
       <div style="color:var(--muted);font-size:12px">Completed rounds: <strong id="footCount">0</strong></div>
     </footer>
   </div>
-
 <script>
 /* ========= Shared progress tracking ========= */
 let roundsCompleted = 0;
 const GOOGLE_FORM = 'https://forms.gle/4TwhDN4BnvaDf3V48';
-
 function updateRoundUI(){
   document.getElementById('roundCount').textContent = roundsCompleted;
   document.getElementById('roundCountHeader').textContent = roundsCompleted;
@@ -352,14 +330,12 @@ function openForm(e){
   if(roundsCompleted < 2){ alert('Please complete at least 2 rounds across games to proceed to the feedback form.'); return; }
   window.open(GOOGLE_FORM, '_blank');
 }
-
 /* ===== game selector ===== */
 function selectGame(id){
   document.querySelectorAll('.game-panel').forEach(g=>g.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
 }
-
 /* ========= Tic Tac Toe ========= */
 const tgrid = document.getElementById('tgrid');
 let tstate = Array(9).fill(null);
@@ -374,7 +350,6 @@ function getCorner(){ const corners=[0,2,6,8].filter(i=>!tstate[i]); return corn
 function getRandom(){ const empt = tstate.map((v,i)=>v?null:i).filter(v=>v!==null); return empt.length? empt[Math.floor(Math.random()*empt.length)] : null; }
 function endTic(msg){ tgameOver=true; document.getElementById('tmsg').textContent = msg; incRound(); }
 resetTic();
-
 /* ========= Simon ========= */
 const padEls = Array.from(document.querySelectorAll('.pad'));
 let simonSeq = [], simonInput = [], simonLevel = 0, simonBusy = false, sBest = 0;
@@ -384,7 +359,6 @@ function playSequence(){ simonBusy=true; simonInput=[]; let i=0; const tick=()=>
 function flashPad(color){ const el = padEls.find(p=>p.dataset.color===color); if(!el) return; el.style.filter='brightness(1.3)'; setTimeout(()=>el.style.filter='',300); }
 padEls.forEach(p=>{ p.addEventListener('click', ()=>{ if(simonBusy) return; const col=p.dataset.color; simonInput.push(col); flashPad(col); const idx=simonInput.length-1; if(simonInput[idx]!==simonSeq[idx]){ alert('Wrong pattern — try again from start of level'); simonInput=[]; playSequence(); return; } if(simonInput.length===simonSeq.length){ if(simonLevel>=5){ alert('Great — you reached level ' + simonLevel + '!'); incRound(); } setTimeout(sNext,400); } }); });
 document.getElementById('sStart').addEventListener('click', sStart);
-
 /* ========= Battleship ========= */
 const pBoard = document.getElementById('playerBoard');
 const eBoard = document.getElementById('enemyBoard');
@@ -393,7 +367,6 @@ const BSZ = 10;
 let playerGrid = [], enemyGrid = [], enemyShips = [], playerShips = [], bTurn = 'player';
 let bGameOver = false; // new flag to stop actions after game ends
 let bRoundAwarded = false; // ensure incRound executed only once per game win
-
 function startBShip(){
   playerGrid = Array(BSZ).fill(0).map(()=>Array(BSZ).fill(0));
   enemyGrid = Array(BSZ).fill(0).map(()=>Array(BSZ).fill(0));
@@ -449,7 +422,6 @@ function renderBoards(){
         else { const sEl=document.createElement('div'); sEl.className='ship-vis'; pcell.appendChild(sEl); }
       }
       pBoard.appendChild(pcell);
-
       const ecell = document.createElement('div'); ecell.className='cell-b'; ecell.dataset.r=r; ecell.dataset.c=c;
       ecell.onclick = ()=>fireAt(r,c,ecell);
       const val = enemyGrid[r][c];
@@ -468,7 +440,6 @@ function renderBoards(){
 function fireAt(r,c){
   // block clicks if game over
   if(bGameOver){ bStatus.textContent = 'Game over. Start a new game.'; return; }
-
   if(bTurn!=='player'){ bStatus.textContent='Not your turn.'; return; }
   if(enemyGrid[r][c] === 'M' || enemyGrid[r][c] === 'H'){ bStatus.textContent='You already fired here.'; return; }
   let hit=false;
@@ -477,7 +448,6 @@ function fireAt(r,c){
   }
   if(!hit){ enemyGrid[r][c]='M'; bStatus.textContent='Miss. Enemy turn.'; }
   renderBoards();
-
   // check win condition and handle exactly once
   if(enemyShips.every(s=>s.hits>=s.len)){
     bStatus.textContent='You win — all enemy ships sunk!';
@@ -490,7 +460,6 @@ function fireAt(r,c){
     setTimeout(()=>{ alert('Victory — you sank all enemy ships!'); }, 50);
     return;
   }
-
   bTurn='enemy';
   setTimeout(enemyShot,500);
 }
@@ -503,7 +472,6 @@ function enemyShot(){
     for(const s of playerShips) if(s.id===id && s.cells.has([r,c].join(','))){ s.hits++; bStatus.textContent='Enemy hit your ship!'; if(s.hits>=s.len) bStatus.textContent='Enemy sank your ship: ' + s.id; break; }
   } else { playerGrid[r][c] = 'M'; bStatus.textContent='Enemy missed. Your turn.'; }
   renderBoards();
-
   // check enemy win
   if(playerShips.every(s=>s.hits>=s.len)){
     bStatus.textContent='Enemy wins. Your ships sunk.';
@@ -511,13 +479,11 @@ function enemyShot(){
     setTimeout(()=>{ alert('Defeat — all your ships were sunk.'); }, 50);
     return;
   }
-
   bTurn='player';
 }
-
 /* ========= UNO (1-10 AI supported) ========= */
 let unoDeck = [], unoDiscard = [], playerHand = [], aiHands = [], unoPlayerIndex = 0, unoTop = null, playDirection = 1;
-
+let isDrawing = false;
 function buildDeck(){
   const d=[]; const colors=['red','green','blue','yellow'];
   for(const col of colors){
@@ -530,7 +496,6 @@ function buildDeck(){
   for(let i=d.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [d[i],d[j]]=[d[j],d[i]]; }
   return d;
 }
-
 function startUno(){
   const aiCount = Math.max(1, Math.min(10, Number(document.getElementById('unoAICount').value) || 2));
   unoDeck = buildDeck(); unoDiscard=[]; playerHand=[]; aiHands = Array.from({length:aiCount},()=>[]);
@@ -546,7 +511,6 @@ function startUno(){
   writeUnoTurn();
   updateAiLabels();
 }
-
 function renderUno(){
   const handEl = document.getElementById('playerHand');
   handEl.innerHTML = '';
@@ -558,7 +522,6 @@ function renderUno(){
   updateAiCountsInUI();
   document.getElementById('unoTurn').textContent = getPlayerLabel(unoPlayerIndex);
 }
-
 function updateAiLabels(){
   // render ai labels (AI 1: n | AI 2: n | ...)
   const wrap = document.getElementById('aiLabels');
@@ -568,46 +531,43 @@ function updateAiLabels(){
   }
   wrap.innerHTML = parts.join(' | ');
 }
-
 function updateAiCountsInUI(){
   for(let i=0;i<aiHands.length;i++){
     const el = document.getElementById(`ai${i}count`);
     if(el) el.textContent = aiHands[i].length;
   }
 }
-
 function getPlayerLabel(index){
   if(index === 0) return 'You';
   return `AI ${index}`;
 }
-
 function canPlay(card, top){ return card.color === top.color || card.val === top.val; }
-
 function playerPlayCard(idx){
   if(unoPlayerIndex !== 0) return alert('Not your turn yet');
   const card = playerHand[idx];
   if(!canPlay(card, unoTop)) return alert('Cannot play that card. Draw 1 or play matching color/number.');
   playerHand.splice(idx,1); unoDiscard.push(card); unoTop = card;
-  if(card.val === 'S'){ advanceTurn(true); } 
+  if(card.val === 'S'){ advanceTurn(true); }
   else if(card.val === 'R'){ playDirection *= -1; advanceTurn(false); }
   else { advanceTurn(false); }
   renderUno(); checkUnoWinner();
 }
-
 function drawCardFromDeck(userClicked=false){
+  if(userClicked){
+    if(isDrawing) return;
+    if(unoPlayerIndex !== 0) return alert('Not your turn');
+    isDrawing = true;
+  }
   if(unoDeck.length === 0){ reshuffleDiscard(); }
   const drawn = unoDeck.pop();
   if(userClicked){
     playerHand.push(drawn); renderUno();
-    setTimeout(()=>{ advanceTurn(false); }, 150);
+    setTimeout(()=>{ advanceTurn(false); isDrawing = false; }, 150);
     return;
   } else return drawn;
 }
-
 function reshuffleDiscard(){ if(unoDiscard.length<=1) return; const top = unoDiscard.pop(); unoDeck = unoDiscard.sort(()=>Math.random()-0.5); unoDiscard=[top]; }
-
 function modIndex(i, total){ return ((i % total) + total) % total; }
-
 function advanceTurn(skipNext){
   const totalPlayers = 1 + aiHands.length;
   if(skipNext){
@@ -619,7 +579,6 @@ function advanceTurn(skipNext){
   if(unoPlayerIndex === 0) { writeUnoTurn(); return; }
   setTimeout(aiPlayIfNeeded, 300);
 }
-
 function aiPlayIfNeeded(){
   const aiIndex = unoPlayerIndex - 1; // aiHands index
   if(aiIndex < 0 || aiIndex >= aiHands.length){ renderUno(); return; }
@@ -636,19 +595,15 @@ function aiPlayIfNeeded(){
     setTimeout(()=>{ advanceTurn(false); renderUno(); }, 200);
   }
 }
-
 function checkUnoWinner(){
   if(playerHand.length === 0){ alert('You won UNO!'); incRound(); startUno(); return; }
   for(let i=0;i<aiHands.length;i++) if(aiHands[i].length === 0){ alert('AI won — match over.'); startUno(); return; }
 }
-
 function writeUnoTurn(){ document.getElementById('unoTurn').textContent = getPlayerLabel(unoPlayerIndex); }
-
 /* initialize */
 selectGame('tic');
 document.getElementById('deck').addEventListener('click', ()=>drawCardFromDeck(true));
 document.getElementById('sStart').addEventListener('click', sStart);
-
 /* small protections */
 window.addEventListener('beforeunload', function(e){ if(roundsCompleted>0){ e.preventDefault(); e.returnValue=''; } });
 </script>
