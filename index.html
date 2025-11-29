@@ -26,8 +26,9 @@
     margin:0; font-family:var(--mono); background:var(--bg); color:var(--text);
     -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     -webkit-tap-highlight-color: transparent;
+    user-select: none;
   }
-  .wrap{max-width:1200px;margin:18px auto;padding:14px;display:grid;grid-template-columns:1fr;gap:12px}
+  .wrap{max-width:900px;margin:18px auto;padding:14px;display:grid;grid-template-columns:1fr;gap:12px}
   header{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
   .brand{display:flex;align-items:center;gap:12px;padding:8px 12px;background:linear-gradient(180deg,var(--glass),rgba(255,255,255,0.02));border-radius:10px;box-shadow:var(--shadow)}
   .logo{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:18px}
@@ -62,12 +63,12 @@
   .tinfo{font-size:12px;color:var(--muted)}
   /* Simon */
   .simon-grid{display:grid;grid-template-columns:repeat(2,110px);gap:8px}
-  .pad{width:110px;height:110px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:#08222b;cursor:pointer;box-shadow:0 6px 12px rgba(0,0,0,0.35)}
+  .pad{width:110px;height:110px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:#08222b;cursor:pointer;box-shadow:0 6px 12px rgba(0,0,0,0.35);user-select:none;}
   .pad.red{background:linear-gradient(180deg,#ff6b6b,#ff3b3b)} .pad.green{background:linear-gradient(180deg,#2ecc71,#1aa34a)} .pad.blue{background:linear-gradient(180deg,#4da6ff,#1f6dff)} .pad.yellow{background:linear-gradient(180deg,#ffd36e,#ffbf2e)}
   /* Battleship compact */
   .board-wrap{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start}
   .board{display:grid;grid-template-columns:repeat(10,22px);gap:4px;padding:6px;background:rgba(255,255,255,0.02);border-radius:8px;border:1px solid rgba(255,255,255,0.03)}
-  .cell-b{width:22px;height:22px;background:transparent;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text);cursor:pointer;border:1px solid rgba(255,255,255,0.03)}
+  .cell-b{width:22px;height:22px;background:transparent;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text);cursor:pointer;border:1px solid rgba(255,255,255,0.03);user-select:none;}
   .cell-b.miss{background:#9fd3ff;color:#01263f} /* blue bullet */
   .cell-b.bullet{background:#9fd3ff;color:#01263f}
   .cell-b.hit{background:#ff5a5a;color:white}
@@ -78,9 +79,10 @@
   .uno-area{display:flex;gap:12px;align-items:flex-start}
   .hand{display:flex;gap:6px;flex-wrap:wrap;max-height:220px;overflow:auto;padding:6px}
   .hand.two-rows{height:116px} /* approx 2 rows depending on card size */
-  .card-ui{width:56px;height:80px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;color:white;font-size:16px;box-shadow:0 8px 16px rgba(0,0,0,0.45);cursor:pointer}
+  .card-ui{width:56px;height:80px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;color:white;font-size:16px;box-shadow:0 8px 16px rgba(0,0,0,0.45);cursor:pointer;user-select:none;}
   .uno-red{background:linear-gradient(180deg,#ff4b4b,#c92b2b)} .uno-green{background:linear-gradient(180deg,#2ecc71,#198c4a)} .uno-blue{background:linear-gradient(180deg,#4da6ff,#1f6dff)} .uno-yellow{background:linear-gradient(180deg,#ffd36e,#ffbf2e)}
   .uno-deck{width:56px;height:80px;border-radius:8px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:700;border:1px dashed rgba(255,255,255,0.03);cursor:pointer}
+  .uno-deck.disabled{pointer-events:none;cursor:default;opacity:0.6;}
   .uno-info{font-size:12px;color:var(--muted)}
   /* bigger bold turn label */
   .turn-label{font-size:14px;color:var(--muted)}
@@ -88,7 +90,7 @@
   footer{margin-top:6px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;flex-wrap:wrap;gap:8px}
   /* responsive: multi-column layout for larger screens and fluid stacking for small ones */
   @media(min-width:980px){
-    .wrap{max-width:1200px}
+    .wrap{max-width:900px}
     .game-body{align-items:flex-start}
     main{padding:18px}
     .game-body > div:first-child{flex:1 1 520px}
@@ -100,6 +102,8 @@
     .pad{width:96px;height:96px;font-size:14px}
     .board{grid-template-columns:repeat(10,20px);gap:3px}
     .card-ui{width:48px;height:68px;font-size:14px}
+    .game-top{flex-direction:column;align-items:flex-start;gap:8px}
+    .turn-value{font-size:14px}
   }
   @media(max-width:520px){
     header{flex-wrap:wrap}
@@ -114,9 +118,82 @@
   }
   /* accessibility focus */
   .btn:focus, .card-ui:focus, select:focus{outline:3px solid rgba(108,142,245,0.18);outline-offset:2px}
+  /* Welcome Banner Styles */
+  .welcome {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 10;
+    transition: opacity 1s ease-in-out;
+    opacity: 1;
+  }
+  .welcome.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .welcome-logo {
+    width: 120px;
+    height: 120px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 800;
+    font-size: 48px;
+    animation: pulse 2s infinite ease-in-out;
+    margin-bottom: 24px;
+  }
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  .welcome-title {
+    font-size: 28px;
+    color: var(--text);
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .welcome-lead {
+    font-size: 16px;
+    color: var(--muted);
+    margin-bottom: 32px;
+    text-align: center;
+    max-width: 400px;
+  }
+  .play-btn {
+    background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.45);
+    font-size: 18px;
+    transition: transform 0.3s ease;
+  }
+  .play-btn:hover {
+    transform: scale(1.05);
+  }
 </style>
 </head>
 <body>
+  <div class="welcome" id="welcomeBanner">
+    <div class="welcome-logo">CIIT</div>
+    <h1 class="welcome-title">Welcome to CIIT Mind & Strategy Challenge</h1>
+    <p class="welcome-lead">Sharpen your planning, focus, and decision-making skills with tactical mini-games.</p>
+    <button class="play-btn" id="playButton">Play</button>
+  </div>
   <div class="wrap" role="main">
     <header>
       <div class="brand">
@@ -242,7 +319,7 @@
             <div class="game-title"><span class="dot t4"></span><div><strong style="font-size:14px">UNO — Quick Match</strong><div style="font-size:12px;color:var(--muted)">S = Skip, R = Reverse. Drawing ends your turn.</div></div></div>
             <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
               <label style="font-size:12px;color:var(--muted);margin-right:6px">AI players</label>
-              <select id="unoAICount" aria-label="UNO AI count" style="background:#0b3b48;color:var(--text);border-radius:6px;padding:6px 8px;border:1px solid rgba(255,255,255,0.03);font-size:13px">
+              <select id="unoAICount" aria-label="UNO AI count" style="background:#0b3b48;color:var(--text);border-radius:6px;padding:6px 8px;border:1px solid rgba(255,255,255,0.03);font-size:13px" onchange="playSound('select')">
                 <option value="1">1 AI</option>
                 <option value="2" selected>2 AI</option>
                 <option value="3">3 AI</option>
@@ -267,7 +344,7 @@
               <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:8px">
                 <div style="min-width:90px">
                   <div style="font-size:12px;color:var(--muted)">Deck</div>
-                  <div class="uno-deck" id="deck" onclick="drawCardFromDeck(true)" title="Click to draw one card">Deck</div>
+                  <div class="uno-deck disabled" id="deck" onclick="drawCardFromDeck(true)" title="Click to draw one card">Deck</div>
                 </div>
                 <div style="flex:1">
                   <div style="font-size:12px;color:var(--muted)">Discard</div>
@@ -299,11 +376,53 @@ Press 'Mark Complete' after win or to count round early.
       </div>
     </main>
     <footer>
-      <div style="display:flex;gap:10px;align-items:center"><div style="font-weight:700">CIIT Mind & Strategy</div><div style="color:var(--muted);font-size:12px">Play, Learn, Compete</div></div>
+      <div style="display:flex;gap:10px;align-items:center"><div style="font-weight:700">CIIT Mind & Strategy</div><div style="color:var(--muted);font-size:12px">Play, Learn, Compete</div><div style="color:var(--muted);font-size:12px">|</div><button id="muteMusic" style="background:transparent;border:none;color:var(--muted);font-size:12px;cursor:pointer;padding:0">Mute Music</button><div style="color:var(--muted);font-size:12px">|</div><button id="muteSFX" style="background:transparent;border:none;color:var(--muted);font-size:12px;cursor:pointer;padding:0">Mute SFX</button></div>
       <div style="color:var(--muted);font-size:12px">Completed rounds: <strong id="footCount">0</strong></div>
     </footer>
   </div>
+<audio id="bgm" loop>
+  <source src="BGSFX/BGM/BGM1.mp3" type="audio/mpeg">
+</audio>
+<audio id="selectSound">
+  <source src="BGSFX/Main/Select.mp3" type="audio/mpeg">
+</audio>
+<audio id="selectUnableSound">
+  <source src="BGSFX/Main/SelectUnable.mp3" type="audio/mpeg">
+</audio>
+<audio id="winSound">
+  <source src="BGSFX/Main/Win.mp3" type="audio/mpeg">
+</audio>
+<audio id="simonSeqSound">
+  <source src="BGSFX/Simon/Simon.mp3" type="audio/mpeg">
+</audio>
+<audio id="simonClickSound">
+  <source src="BGSFX/Simon/SimonClick.mp3" type="audio/mpeg">
+</audio>
+<audio id="ticPlaceSound">
+  <source src="BGSFX/TicTacToe/TicTacToePlace.mp3" type="audio/mpeg">
+</audio>
+<audio id="bsHitSound">
+  <source src="BGSFX/Battleship/Hit.mp3" type="audio/mpeg">
+</audio>
+<audio id="bsMissSound">
+  <source src="BGSFX/Battleship/Miss.mp3" type="audio/mpeg">
+</audio>
+<audio id="bsDestroySound">
+  <source src="BGSFX/Battleship/Destroyed.mp3" type="audio/mpeg">
+</audio>
+<audio id="unoPlaceSound">
+  <source src="BGSFX/UNO/Place.mp3" type="audio/mpeg">
+</audio>
+<audio id="unoDeckSound">
+  <source src="BGSFX/UNO/Deck.mp3" type="audio/mpeg">
+</audio>
+<audio id="unoShuffleSound">
+  <source src="BGSFX/UNO/ShuffleStart.mp3" type="audio/mpeg">
+</audio>
 <script>
+/* Audio Controls */
+let musicMuted = false;
+let sfxMuted = false;
 /* ========= Shared progress tracking ========= */
 let roundsCompleted = 0;
 const GOOGLE_FORM = 'https://forms.gle/4TwhDN4BnvaDf3V48';
@@ -318,6 +437,7 @@ function incRound(){
   if(roundsCompleted >= 2) enableFinish();
 }
 function completeRound(name){
+  playSound('select');
   incRound();
   alert('Marked as complete: ' + name + '. Rounds counted: ' + roundsCompleted);
 }
@@ -327,11 +447,13 @@ function enableFinish(){
 }
 function openForm(e){
   if(e) e.preventDefault();
-  if(roundsCompleted < 2){ alert('Please complete at least 2 rounds across games to proceed to the feedback form.'); return; }
+  if(roundsCompleted < 2){ playSound('selectUnable'); alert('Please complete at least 2 rounds across games to proceed to the feedback form.'); return; }
+  playSound('select');
   window.open(GOOGLE_FORM, '_blank');
 }
 /* ===== game selector ===== */
 function selectGame(id){
+  playSound('select');
   document.querySelectorAll('.game-panel').forEach(g=>g.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
@@ -341,23 +463,23 @@ const tgrid = document.getElementById('tgrid');
 let tstate = Array(9).fill(null);
 let tgameOver = false;
 function renderTic(){ tgrid.innerHTML=''; tstate.forEach((v,i)=>{ const d=document.createElement('div'); d.className='cell'+(v?' locked':''); d.innerHTML = v? v : ''; d.onclick=()=>{ if(!tstate[i] && !tgameOver) playTic(i) }; tgrid.appendChild(d); }); }
-function resetTic(){ tstate=Array(9).fill(null); tgameOver=false; document.getElementById('tmsg').textContent='Your turn — X'; renderTic(); }
-function playTic(i){ if(tgameOver||tstate[i]) return; tstate[i]='X'; renderTic(); if(checkWin(tstate,'X')){ endTic('You win!'); return; } if(tstate.every(Boolean)){ endTic('Draw'); return; } document.getElementById('tmsg').textContent='AI thinking…'; setTimeout(aiMoveTic,300); }
-function aiMoveTic(){ const o='O'; const idx = findWinning(tstate,o) ?? findWinning(tstate,'X') ?? (tstate[4]? null:4) ?? getCorner() ?? getRandom(); if(idx!=null) tstate[idx]=o; renderTic(); if(checkWin(tstate,'O')){ endTic('AI wins'); return; } if(tstate.every(Boolean)){ endTic('Draw'); return; } document.getElementById('tmsg').textContent='Your turn — X'; }
+function resetTic(){ playSound('select'); tstate=Array(9).fill(null); tgameOver=false; document.getElementById('tmsg').textContent='Your turn — X'; renderTic(); }
+function playTic(i){ if(tgameOver||tstate[i]){ playSound('selectUnable'); return; } tstate[i]='X'; playSound('ticPlace'); renderTic(); if(checkWin(tstate,'X')){ endTic('You win!'); return; } if(tstate.every(Boolean)){ endTic('Draw'); return; } document.getElementById('tmsg').textContent='AI thinking…'; setTimeout(aiMoveTic,300); }
+function aiMoveTic(){ const o='O'; const idx = findWinning(tstate,o) ?? findWinning(tstate,'X') ?? (tstate[4]? null:4) ?? getCorner() ?? getRandom(); if(idx!=null) tstate[idx]=o; playSound('ticPlace'); renderTic(); if(checkWin(tstate,'O')){ endTic('AI wins'); return; } if(tstate.every(Boolean)){ endTic('Draw'); return; } document.getElementById('tmsg').textContent='Your turn — X'; }
 function checkWin(s,p){ const wins=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]; return wins.some(w=>w.every(i=>s[i]===p)); }
 function findWinning(s,player){ for(let i=0;i<9;i++){ if(!s[i]){ s[i]=player; const ok=checkWin(s,player); s[i]=null; if(ok) return i; } } return null; }
 function getCorner(){ const corners=[0,2,6,8].filter(i=>!tstate[i]); return corners.length ? corners[Math.floor(Math.random()*corners.length)] : null; }
 function getRandom(){ const empt = tstate.map((v,i)=>v?null:i).filter(v=>v!==null); return empt.length? empt[Math.floor(Math.random()*empt.length)] : null; }
-function endTic(msg){ tgameOver=true; document.getElementById('tmsg').textContent = msg; incRound(); }
+function endTic(msg){ tgameOver=true; document.getElementById('tmsg').textContent = msg; if(msg === 'You win!') playSound('win'); incRound(); }
 resetTic();
 /* ========= Simon ========= */
 const padEls = Array.from(document.querySelectorAll('.pad'));
 let simonSeq = [], simonInput = [], simonLevel = 0, simonBusy = false, sBest = 0;
-function sStart(){ simonSeq=[]; simonLevel=0; sNext(); }
+function sStart(){ playSound('select'); simonSeq=[]; simonLevel=0; sNext(); }
 function sNext(){ simonLevel++; document.getElementById('sLevel').textContent = simonLevel; if(simonLevel> sBest){ sBest=simonLevel; document.getElementById('sBest').textContent=sBest; } const colorsArr=['red','green','blue','yellow']; simonSeq.push(colorsArr[Math.floor(Math.random()*colorsArr.length)]); playSequence(); }
 function playSequence(){ simonBusy=true; simonInput=[]; let i=0; const tick=()=>{ if(i>=simonSeq.length){ simonBusy=false; return; } flashPad(simonSeq[i]); i++; setTimeout(tick,520); }; tick(); }
-function flashPad(color){ const el = padEls.find(p=>p.dataset.color===color); if(!el) return; el.style.filter='brightness(1.3)'; setTimeout(()=>el.style.filter='',300); }
-padEls.forEach(p=>{ p.addEventListener('click', ()=>{ if(simonBusy) return; const col=p.dataset.color; simonInput.push(col); flashPad(col); const idx=simonInput.length-1; if(simonInput[idx]!==simonSeq[idx]){ alert('Wrong pattern — try again from start of level'); simonInput=[]; playSequence(); return; } if(simonInput.length===simonSeq.length){ if(simonLevel>=5){ alert('Great — you reached level ' + simonLevel + '!'); incRound(); } setTimeout(sNext,400); } }); });
+function flashPad(color){ const el = padEls.find(p=>p.dataset.color===color); if(!el) return; el.style.filter='brightness(1.3)'; playSound('simonSeq'); setTimeout(()=>el.style.filter='',300); }
+padEls.forEach(p=>{ p.addEventListener('click', ()=>{ if(simonBusy){ playSound('selectUnable'); return; } const col=p.dataset.color; simonInput.push(col); playSound('simonClick'); flashPad(col); const idx=simonInput.length-1; if(simonInput[idx]!==simonSeq[idx]){ playSound('selectUnable'); alert('Wrong pattern — try again from start of level'); simonInput=[]; playSequence(); return; } if(simonInput.length===simonSeq.length){ if(simonLevel>=5){ playSound('win'); alert('Great — you reached level ' + simonLevel + '!'); incRound(); } setTimeout(sNext,400); } }); });
 document.getElementById('sStart').addEventListener('click', sStart);
 /* ========= Battleship ========= */
 const pBoard = document.getElementById('playerBoard');
@@ -368,6 +490,7 @@ let playerGrid = [], enemyGrid = [], enemyShips = [], playerShips = [], bTurn = 
 let bGameOver = false; // new flag to stop actions after game ends
 let bRoundAwarded = false; // ensure incRound executed only once per game win
 function startBShip(){
+  playSound('select');
   playerGrid = Array(BSZ).fill(0).map(()=>Array(BSZ).fill(0));
   enemyGrid = Array(BSZ).fill(0).map(()=>Array(BSZ).fill(0));
   playerShips = placeRandomShips(playerGrid);
@@ -439,17 +562,18 @@ function renderBoards(){
 }
 function fireAt(r,c){
   // block clicks if game over
-  if(bGameOver){ bStatus.textContent = 'Game over. Start a new game.'; return; }
-  if(bTurn!=='player'){ bStatus.textContent='Not your turn.'; return; }
-  if(enemyGrid[r][c] === 'M' || enemyGrid[r][c] === 'H'){ bStatus.textContent='You already fired here.'; return; }
+  if(bGameOver){ playSound('selectUnable'); bStatus.textContent = 'Game over. Start a new game.'; return; }
+  if(bTurn!=='player'){ playSound('selectUnable'); bStatus.textContent='Not your turn.'; return; }
+  if(enemyGrid[r][c] === 'M' || enemyGrid[r][c] === 'H'){ playSound('selectUnable'); bStatus.textContent='You already fired here.'; return; }
   let hit=false;
   for(const s of enemyShips){
-    if(s.cells.has([r,c].join(','))){ hit=true; s.hits++; enemyGrid[r][c]='H'; bStatus.textContent='Hit!'; if(s.hits>=s.len) bStatus.textContent=`You sank enemy ${s.id}!`; break; }
+    if(s.cells.has([r,c].join(','))){ hit=true; s.hits++; enemyGrid[r][c]='H'; playSound('bsHit'); bStatus.textContent='Hit!'; if(s.hits>=s.len){ playSound('bsDestroy'); bStatus.textContent=`You sank enemy ${s.id}!`; } break; }
   }
-  if(!hit){ enemyGrid[r][c]='M'; bStatus.textContent='Miss. Enemy turn.'; }
+  if(!hit){ enemyGrid[r][c]='M'; playSound('bsMiss'); bStatus.textContent='Miss. Enemy turn.'; }
   renderBoards();
   // check win condition and handle exactly once
   if(enemyShips.every(s=>s.hits>=s.len)){
+    playSound('win');
     bStatus.textContent='You win — all enemy ships sunk!';
     if(!bRoundAwarded){
       bRoundAwarded = true;
@@ -469,8 +593,8 @@ function enemyShot(){
   do { r=Math.floor(Math.random()*BSZ); c=Math.floor(Math.random()*BSZ); } while(playerGrid[r][c]==='M' || playerGrid[r][c]==='H');
   if(playerGrid[r][c] !== 0 && playerGrid[r][c] !== 'M' && playerGrid[r][c] !== 'H'){
     const id = playerGrid[r][c]; playerGrid[r][c] = 'H';
-    for(const s of playerShips) if(s.id===id && s.cells.has([r,c].join(','))){ s.hits++; bStatus.textContent='Enemy hit your ship!'; if(s.hits>=s.len) bStatus.textContent='Enemy sank your ship: ' + s.id; break; }
-  } else { playerGrid[r][c] = 'M'; bStatus.textContent='Enemy missed. Your turn.'; }
+    for(const s of playerShips) if(s.id===id && s.cells.has([r,c].join(','))){ s.hits++; playSound('bsHit'); bStatus.textContent='Enemy hit your ship!'; if(s.hits>=s.len){ playSound('bsDestroy'); bStatus.textContent='Enemy sank your ship: ' + s.id; } break; }
+  } else { playerGrid[r][c] = 'M'; playSound('bsMiss'); bStatus.textContent='Enemy missed. Your turn.'; }
   renderBoards();
   // check enemy win
   if(playerShips.every(s=>s.hits>=s.len)){
@@ -497,6 +621,7 @@ function buildDeck(){
   return d;
 }
 function startUno(){
+  playSound('unoShuffle');
   const aiCount = Math.max(1, Math.min(10, Number(document.getElementById('unoAICount').value) || 2));
   unoDeck = buildDeck(); unoDiscard=[]; playerHand=[]; aiHands = Array.from({length:aiCount},()=>[]);
   // deal 7 to each (player then each ai in round robin)
@@ -510,6 +635,7 @@ function startUno(){
   renderUno();
   writeUnoTurn();
   updateAiLabels();
+  document.getElementById('deck').classList.remove('disabled');
 }
 function renderUno(){
   const handEl = document.getElementById('playerHand');
@@ -543,9 +669,10 @@ function getPlayerLabel(index){
 }
 function canPlay(card, top){ return card.color === top.color || card.val === top.val; }
 function playerPlayCard(idx){
-  if(unoPlayerIndex !== 0) return alert('Not your turn yet');
+  if(unoPlayerIndex !== 0){ playSound('selectUnable'); return alert('Not your turn yet'); }
   const card = playerHand[idx];
-  if(!canPlay(card, unoTop)) return alert('Cannot play that card. Draw 1 or play matching color/number.');
+  if(!canPlay(card, unoTop)){ playSound('selectUnable'); return alert('Cannot play that card. Draw 1 or play matching color/number.'); }
+  playSound('unoPlace');
   playerHand.splice(idx,1); unoDiscard.push(card); unoTop = card;
   if(card.val === 'S'){ advanceTurn(true); }
   else if(card.val === 'R'){ playDirection *= -1; advanceTurn(false); }
@@ -555,7 +682,8 @@ function playerPlayCard(idx){
 function drawCardFromDeck(userClicked=false){
   if(userClicked){
     if(isDrawing) return;
-    if(unoPlayerIndex !== 0) return alert('Not your turn');
+    if(unoPlayerIndex !== 0){ playSound('selectUnable'); return alert('Not your turn'); }
+    playSound('unoDeck');
     isDrawing = true;
   }
   if(unoDeck.length === 0){ reshuffleDiscard(); }
@@ -586,17 +714,19 @@ function aiPlayIfNeeded(){
   const playIdx = hand.findIndex(c=>canPlay(c, unoTop));
   if(playIdx >= 0){
     const card = hand.splice(playIdx,1)[0]; unoDiscard.push(card); unoTop = card;
+    playSound('unoPlace');
     if(card.val === 'S'){ advanceTurn(true); renderUno(); checkUnoWinner(); return; }
     if(card.val === 'R'){ playDirection *= -1; advanceTurn(false); renderUno(); checkUnoWinner(); return; }
     advanceTurn(false); renderUno(); checkUnoWinner(); return;
   } else {
     if(unoDeck.length === 0) reshuffleDiscard();
     const d = unoDeck.pop(); hand.push(d);
+    playSound('unoDeck');
     setTimeout(()=>{ advanceTurn(false); renderUno(); }, 200);
   }
 }
 function checkUnoWinner(){
-  if(playerHand.length === 0){ alert('You won UNO!'); incRound(); startUno(); return; }
+  if(playerHand.length === 0){ playSound('win'); alert('You won UNO!'); incRound(); startUno(); return; }
   for(let i=0;i<aiHands.length;i++) if(aiHands[i].length === 0){ alert('AI won — match over.'); startUno(); return; }
 }
 function writeUnoTurn(){ document.getElementById('unoTurn').textContent = getPlayerLabel(unoPlayerIndex); }
@@ -606,6 +736,36 @@ document.getElementById('deck').addEventListener('click', ()=>drawCardFromDeck(t
 document.getElementById('sStart').addEventListener('click', sStart);
 /* small protections */
 window.addEventListener('beforeunload', function(e){ if(roundsCompleted>0){ e.preventDefault(); e.returnValue=''; } });
+function playSound(soundId) {
+  if(sfxMuted) return;
+  const original = document.getElementById(soundId + 'Sound');
+  if (original) {
+    const audio = original.cloneNode(true);
+    audio.play().catch(e => console.log('Sound play error:', e));
+  }
+}
+const bgm = document.getElementById('bgm');
+/* Welcome Banner Logic */
+const welcomeBanner = document.getElementById('welcomeBanner');
+const playButton = document.getElementById('playButton');
+playButton.addEventListener('click', () => {
+  welcomeBanner.classList.add('hidden');
+  bgm.play().catch(e => console.log('BGM play error:', e));
+  initAudioControls();
+});
+function initAudioControls() {
+  const muteMusicBtn = document.getElementById('muteMusic');
+  const muteSFXBtn = document.getElementById('muteSFX');
+  muteMusicBtn.addEventListener('click', () => {
+    musicMuted = !musicMuted;
+    muteMusicBtn.textContent = musicMuted ? 'Unmute Music' : 'Mute Music';
+    if(musicMuted) bgm.pause(); else bgm.play().catch(e => console.log('BGM play error:', e));
+  });
+  muteSFXBtn.addEventListener('click', () => {
+    sfxMuted = !sfxMuted;
+    muteSFXBtn.textContent = sfxMuted ? 'Unmute SFX' : 'Mute SFX';
+  });
+}
 </script>
 </body>
 </html>
