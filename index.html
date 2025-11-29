@@ -238,7 +238,15 @@
         <section id="tic" class="game-panel">
           <div class="game-top">
             <div class="game-title"><span class="dot t1"></span><div><strong style="font-size:14px">Tactical Tic Tac Toe</strong><div style="font-size:12px;color:var(--muted)">Beat the heuristic AI.</div></div></div>
-            <div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+              <label style="font-size:12px;color:var(--muted);margin-right:6px">Difficulty</label>
+              <select id="ticDifficulty" aria-label="Tic-Tac-Toe Difficulty" style="background:#0b3b48;color:var(--text);border-radius:6px;padding:6px 8px;border:1px solid rgba(255,255,255,0.03);font-size:13px" onchange="playSound('select')">
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard" selected>Hard</option>
+                <option value="veryhard">Very Hard</option>
+                <option value="impossible">Impossible</option>
+              </select>
               <button class="btn small" onclick="resetTic()">Restart</button>
               <button class="btn small ghost" onclick="completeRound('TicTacToe')">Mark Complete</button>
             </div>
@@ -283,7 +291,15 @@
         <section id="bship" class="game-panel">
           <div class="game-top">
             <div class="game-title"><span class="dot t3"></span><div><strong style="font-size:14px">Battleship (Turn-based)</strong><div style="font-size:12px;color:var(--muted)">10×10 vs AI. Sink all ships.</div></div></div>
-            <div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+              <label style="font-size:12px;color:var(--muted);margin-right:6px">Difficulty</label>
+              <select id="bshipDifficulty" aria-label="Battleship Difficulty" style="background:#0b3b48;color:var(--text);border-radius:6px;padding:6px 8px;border:1px solid rgba(255,255,255,0.03);font-size:13px" onchange="playSound('select')">
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard" selected>Hard</option>
+                <option value="veryhard">Very Hard</option>
+                <option value="impossible">Impossible</option>
+              </select>
               <button class="btn small" onclick="startBShip()">New Game</button>
               <button class="btn small ghost" onclick="completeRound('Battleship')">Mark Complete</button>
             </div>
@@ -465,12 +481,47 @@ let tgameOver = false;
 function renderTic(){ tgrid.innerHTML=''; tstate.forEach((v,i)=>{ const d=document.createElement('div'); d.className='cell'+(v?' locked':''); d.innerHTML = v? v : ''; d.onclick=()=>{ if(!tstate[i] && !tgameOver) playTic(i) }; tgrid.appendChild(d); }); }
 function resetTic(){ playSound('select'); tstate=Array(9).fill(null); tgameOver=false; document.getElementById('tmsg').textContent='Your turn — X'; renderTic(); }
 function playTic(i){ if(tgameOver||tstate[i]){ playSound('selectUnable'); return; } tstate[i]='X'; playSound('ticPlace'); renderTic(); if(checkWin(tstate,'X')){ endTic('You win!'); return; } if(tstate.every(Boolean)){ endTic('Draw'); return; } document.getElementById('tmsg').textContent='AI thinking…'; setTimeout(aiMoveTic,300); }
-function aiMoveTic(){ const o='O'; const idx = findWinning(tstate,o) ?? findWinning(tstate,'X') ?? (tstate[4]? null:4) ?? getCorner() ?? getRandom(); if(idx!=null) tstate[idx]=o; playSound('ticPlace'); renderTic(); if(checkWin(tstate,'O')){ endTic('AI wins'); return; } if(tstate.every(Boolean)){ endTic('Draw'); return; } document.getElementById('tmsg').textContent='Your turn — X'; }
+function aiMoveTic(){ 
+  const diff = document.getElementById('ticDifficulty').value;
+  const o='O'; let idx = null;
+  if(diff === 'easy'){
+    idx = getRandom();
+  } else if(diff === 'medium'){
+    if(Math.random() < 0.5) idx = findWinning(tstate,o) ?? findWinning(tstate,'X') ?? getRandom();
+    else idx = getRandom();
+  } else if(diff === 'hard'){
+    idx = findWinning(tstate,o) ?? findWinning(tstate,'X') ?? (tstate[4]? null:4) ?? getCorner() ?? getRandom();
+  } else if(diff === 'veryhard'){
+    idx = minimaxTic(tstate, o, 3).index; // limited depth
+  } else if(diff === 'impossible'){
+    idx = minimaxTic(tstate, o).index;
+  }
+  if(idx!=null) tstate[idx]=o; playSound('ticPlace'); renderTic(); if(checkWin(tstate,'O')){ endTic('AI wins'); return; } if(tstate.every(Boolean)){ endTic('Draw'); return; } document.getElementById('tmsg').textContent='Your turn — X'; 
+}
 function checkWin(s,p){ const wins=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]; return wins.some(w=>w.every(i=>s[i]===p)); }
 function findWinning(s,player){ for(let i=0;i<9;i++){ if(!s[i]){ s[i]=player; const ok=checkWin(s,player); s[i]=null; if(ok) return i; } } return null; }
 function getCorner(){ const corners=[0,2,6,8].filter(i=>!tstate[i]); return corners.length ? corners[Math.floor(Math.random()*corners.length)] : null; }
 function getRandom(){ const empt = tstate.map((v,i)=>v?null:i).filter(v=>v!==null); return empt.length? empt[Math.floor(Math.random()*empt.length)] : null; }
 function endTic(msg){ tgameOver=true; document.getElementById('tmsg').textContent = msg; if(msg === 'You win!') playSound('win'); incRound(); }
+function minimaxTic(board, player, maxDepth = -1) {
+  const opponent = player === 'O' ? 'X' : 'O';
+  if (checkWin(board, 'O')) return {score: 10};
+  if (checkWin(board, 'X')) return {score: -10};
+  if (board.every(Boolean)) return {score: 0};
+  if (maxDepth === 0) return {score: 0};
+  let best = {score: player === 'O' ? -Infinity : Infinity};
+  for (let i = 0; i < 9; i++) {
+    if (!board[i]) {
+      board[i] = player;
+      let sim = minimaxTic(board, opponent, maxDepth - 1);
+      board[i] = null;
+      sim.index = i;
+      if (player === 'O' && sim.score > best.score) best = sim;
+      if (player !== 'O' && sim.score < best.score) best = sim;
+    }
+  }
+  return best;
+}
 resetTic();
 /* ========= Simon ========= */
 const padEls = Array.from(document.querySelectorAll('.pad'));
@@ -489,6 +540,8 @@ const BSZ = 10;
 let playerGrid = [], enemyGrid = [], enemyShips = [], playerShips = [], bTurn = 'player';
 let bGameOver = false; // new flag to stop actions after game ends
 let bRoundAwarded = false; // ensure incRound executed only once per game win
+let lastHit = null; // for hunt mode
+let huntQueue = []; // queue for adjacent cells
 function startBShip(){
   playSound('select');
   playerGrid = Array(BSZ).fill(0).map(()=>Array(BSZ).fill(0));
@@ -500,6 +553,8 @@ function startBShip(){
   bTurn = 'player';
   bGameOver = false;
   bRoundAwarded = false;
+  lastHit = null;
+  huntQueue = [];
 }
 function placeRandomShips(grid){
   const ships = [{id:'C',len:5},{id:'B',len:4},{id:'R',len:3},{id:'S',len:3},{id:'D',len:2}];
@@ -589,21 +644,94 @@ function fireAt(r,c){
 }
 function enemyShot(){
   if(bGameOver) return;
-  let r,c;
-  do { r=Math.floor(Math.random()*BSZ); c=Math.floor(Math.random()*BSZ); } while(playerGrid[r][c]==='M' || playerGrid[r][c]==='H');
-  if(playerGrid[r][c] !== 0 && playerGrid[r][c] !== 'M' && playerGrid[r][c] !== 'H'){
+  const diff = document.getElementById('bshipDifficulty').value;
+  let r, c;
+  let tries = 0;
+  if (diff === 'easy') {
+    // Dumb: may reshoot already shot
+    r = Math.floor(Math.random() * BSZ);
+    c = Math.floor(Math.random() * BSZ);
+    if (Math.random() < 0.5 && (playerGrid[r][c] === 'M' || playerGrid[r][c] === 'H')) { // 50% chance to reshoot
+      // but to avoid infinite loop, but since it's not in loop, ok
+    }
+  } else if (diff === 'medium') {
+    // Random on empty, like original
+    do { 
+      r = Math.floor(Math.random() * BSZ); 
+      c = Math.floor(Math.random() * BSZ); 
+      tries++;
+      if (tries > 1000) { bStatus.textContent = 'Error: No valid cells left to shoot.'; bGameOver = true; return; }
+    } while (playerGrid[r][c] === 'M' || playerGrid[r][c] === 'H');
+  } else if (diff === 'hard' || diff === 'veryhard') {
+    // Hunt mode
+    if (huntQueue.length > 0) {
+      const pos = huntQueue.shift();
+      r = pos[0]; c = pos[1];
+      // Safety check in case somehow shot meanwhile (though shouldn't)
+      if (playerGrid[r][c] === 'M' || playerGrid[r][c] === 'H') {
+        return enemyShot(); // Recurse to pick next
+      }
+    } else {
+      do { 
+        r = Math.floor(Math.random() * BSZ); 
+        c = Math.floor(Math.random() * BSZ); 
+        tries++;
+        if (tries > 1000) { bStatus.textContent = 'Error: No valid cells left to shoot.'; bGameOver = true; return; }
+      } while (playerGrid[r][c] === 'M' || playerGrid[r][c] === 'H');
+    }
+  } else if (diff === 'impossible') {
+    // Cheat: prefer hitting ships
+    let emptyShips = [];
+    for (let i = 0; i < BSZ; i++) {
+      for (let j = 0; j < BSZ; j++) {
+        if (playerGrid[i][j] !== 0 && playerGrid[i][j] !== 'M' && playerGrid[i][j] !== 'H') emptyShips.push([i, j]);
+      }
+    }
+    if (emptyShips.length > 0 && Math.random() < 0.8) { // 80% chance to hit ship
+      const pos = emptyShips[Math.floor(Math.random() * emptyShips.length)];
+      r = pos[0]; c = pos[1];
+    } else {
+      do { 
+        r = Math.floor(Math.random() * BSZ); 
+        c = Math.floor(Math.random() * BSZ); 
+        tries++;
+        if (tries > 1000) { bStatus.textContent = 'Error: No valid cells left to shoot.'; bGameOver = true; return; }
+      } while (playerGrid[r][c] === 'M' || playerGrid[r][c] === 'H');
+    }
+  }
+  if (playerGrid[r][c] !== 0 && playerGrid[r][c] !== 'M' && playerGrid[r][c] !== 'H') {
     const id = playerGrid[r][c]; playerGrid[r][c] = 'H';
-    for(const s of playerShips) if(s.id===id && s.cells.has([r,c].join(','))){ s.hits++; playSound('bsHit'); bStatus.textContent='Enemy hit your ship!'; if(s.hits>=s.len){ playSound('bsDestroy'); bStatus.textContent='Enemy sank your ship: ' + s.id; } break; }
-  } else { playerGrid[r][c] = 'M'; playSound('bsMiss'); bStatus.textContent='Enemy missed. Your turn.'; }
+    let hitShip = null;
+    for (const s of playerShips) if (s.id === id && s.cells.has([r, c].join(','))) { hitShip = s; s.hits++; playSound('bsHit'); bStatus.textContent = 'Enemy hit your ship!'; if (s.hits >= s.len) { playSound('bsDestroy'); bStatus.textContent = 'Enemy sank your ship: ' + s.id; } break; }
+    lastHit = [r, c];
+    if ((diff === 'hard' || diff === 'veryhard') && hitShip && hitShip.hits < hitShip.len) {
+      // Add adjacent to queue
+      const dirs = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      for (const d of dirs) {
+        const nr = r + d[0]; const nc = c + d[1];
+        if (nr >= 0 && nr < BSZ && nc >= 0 && nc < BSZ && playerGrid[nr][nc] !== 'M' && playerGrid[nr][nc] !== 'H') {
+          huntQueue.push([nr, nc]);
+        }
+      }
+    }
+  } else {
+    const wasAlreadyShot = playerGrid[r][c] === 'M' || playerGrid[r][c] === 'H';
+    if (!wasAlreadyShot) {
+      playerGrid[r][c] = 'M';
+    }
+    playSound('bsMiss');
+    bStatus.textContent = wasAlreadyShot ? 'Enemy reshoot a known spot. Your turn.' : 'Enemy missed. Your turn.';
+    lastHit = null;
+  }
   renderBoards();
   // check enemy win
-  if(playerShips.every(s=>s.hits>=s.len)){
-    bStatus.textContent='Enemy wins. Your ships sunk.';
+  if (playerShips.every(s => s.hits >= s.len)) {
+    bStatus.textContent = 'Enemy wins. Your ships sunk.';
     bGameOver = true;
-    setTimeout(()=>{ alert('Defeat — all your ships were sunk.'); }, 50);
+    setTimeout(() => { alert('Defeat — all your ships were sunk.'); }, 50);
     return;
   }
-  bTurn='player';
+  bTurn = 'player';
 }
 /* ========= UNO (1-10 AI supported) ========= */
 let unoDeck = [], unoDiscard = [], playerHand = [], aiHands = [], unoPlayerIndex = 0, unoTop = null, playDirection = 1;
