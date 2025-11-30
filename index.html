@@ -185,6 +185,43 @@
   .play-btn:hover {
     transform: scale(1.05);
   }
+  /* Game message styles */
+  .game-msg {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--text);
+    margin-top: 8px;
+    text-align: center;
+  }
+  /* Video player styles */
+  .video-wrapper { 
+    margin-top: 12px; 
+    background: rgba(0,0,0,0.3); 
+    border-radius: 8px; 
+    padding: 10px; 
+    border: 1px solid rgba(255,255,255,0.1); 
+    overflow: hidden; 
+  }
+  .video-container { 
+    display: none; 
+    opacity: 0; 
+    transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out; 
+    max-height: 0; 
+  }
+  .video-container.visible { 
+    display: block; 
+    opacity: 1; 
+    max-height: 500px; 
+  }
+  .toggle-video { 
+    background: transparent; 
+    color: var(--accent-1); 
+    border: none; 
+    cursor: pointer; 
+    font-size: 13px; 
+    padding: 0; 
+    margin-left: 10px; 
+  }
 </style>
 </head>
 <body>
@@ -208,6 +245,7 @@
         <div class="finish-cta">
           <button id="finishHeaderBtn" class="finish-btn" onclick="openForm(event)" disabled>Finish & Give Feedback</button>
         </div>
+        <div id="headerMsg" class="game-msg"></div>
       </div>
     </header>
     <main>
@@ -255,10 +293,18 @@
             <div>
               <div class="t3" id="tgrid" aria-label="Tic tac toe grid"></div>
               <div class="tinfo" id="tmsg">Your turn — X</div>
+              <div id="ticMsg" class="game-msg"></div>
             </div>
             <div style="min-width:160px">
               <div style="font-weight:700;margin-bottom:6px">Tic Tac Toe</div>
               <div style="color:var(--muted);font-size:12px;line-height:1.35">You play as X. Click an empty cell on the 3x3 grid to place your X.<br><br>The AI plays as O and will automatically respond after your move, trying to block you or win.<br><br>Aim to get three X's in a row horizontally, vertically, or diagonally before the AI does.<br><br>If the grid fills without a winner, it's a draw. To restart, press the 'Restart' button.<br><br>After finishing or if you want to count the round without completing, press 'Mark Complete'.</div>
+            </div>
+          </div>
+          <div class="video-wrapper">
+            <h4 style="margin:0 0 6px; font-size:13px;display:inline">Tutorial Video</h4>
+            <button class="toggle-video" onclick="toggleVideo(this)">Expand Video Player</button>
+            <div class="video-container">
+              <video controls width="100%" src="VID/Tutorials/TicTacToe.mp4"></video>
             </div>
           </div>
         </section>
@@ -280,10 +326,18 @@
                 <div class="pad yellow" data-color="yellow">Yellow</div>
               </div>
               <div style="margin-top:10px" class="tinfo">Level: <strong id="sLevel">0</strong> — Best: <strong id="sBest">0</strong></div>
+              <div id="simonMsg" class="game-msg"></div>
             </div>
             <div style="min-width:160px">
               <div style="font-weight:700;margin-bottom:6px">Pattern Memory</div>
               <div style="color:var(--muted);font-size:12px;line-height:1.35">Press 'Start' to begin. Watch the sequence of colored pads flashing (red, green, blue, or yellow).<br><br>After the sequence ends, repeat it by clicking the pads in the same order. Each correct repetition adds a new color to the sequence, increasing the level.<br><br>If you make a mistake, the level restarts but your best score is tracked.<br><br>Reach level 5 for a strong result and to count the round.<br><br>Press 'Mark Complete' if you want to count without reaching level 5.</div>
+            </div>
+          </div>
+          <div class="video-wrapper">
+            <h4 style="margin:0 0 6px; font-size:13px;display:inline">Tutorial Video</h4>
+            <button class="toggle-video" onclick="toggleVideo(this)">Expand Video Player</button>
+            <div class="video-container">
+              <video controls width="100%" src="VID/Tutorials/PatternMemory.mp4"></video>
             </div>
           </div>
         </section>
@@ -323,9 +377,23 @@
             </div>
             <div style="min-width:140px">
               <div class="status-line" id="bshipStatus">Press New Game to place ships and begin.</div>
-              <div style="margin-top:8px" class="tinfo">Ships: Carrier(5), Battleship(4), Cruiser(3), Sub(3), Destroyer(2)</div>
+              <div id="bshipMsg" class="game-msg"></div>
+              <div style="font-weight:700;margin-top:6px">Ships and their Grid Sizes</div>
+              <div style="margin-top:8px" class="tinfo">
+			  Carrier (5 Grids)<br>
+			  Battleship (4 Grids)<br> 
+			  Cruiser (3 Grids)<br>
+			  Submarine (3 Grids)<br>
+			  Destroyer (2 Grids)</div>
               <div style="font-weight:700;margin-top:6px">How to play</div>
               <div style="color:var(--muted);font-size:12px;line-height:1.35">Press 'New Game' to randomly place your 5 ships on the left 10x10 grid (green squares).<br><br>Click any cell on the right enemy grid to fire a shot.<br><br>Hits show red, misses blue, sunk black.<br><br>After your turn, AI fires at your grid.<br>Sink all enemy ships (hit all their cells) to win. Ships can't overlap.<br><br>Press 'Mark Complete' after win or to count round early.</div>
+            </div>
+          </div>
+          <div class="video-wrapper">
+            <h4 style="margin:0 0 6px; font-size:13px;display:inline">Tutorial Video</h4>
+            <button class="toggle-video" onclick="toggleVideo(this)">Expand Video Player</button>
+            <div class="video-container">
+              <video controls width="100%" src="VID/Tutorials/Battleship.mp4"></video>
             </div>
           </div>
         </section>
@@ -371,6 +439,7 @@
                 <div style="font-weight:700">Your Hand</div>
                 <div id="playerHand" class="hand two-rows" aria-live="polite"></div>
                 <div style="margin-top:6px" class="uno-info">AI Hands — <span id="aiLabels">AI A: <strong id="aiAcount">0</strong></span></div>
+                <div id="unoMsg" class="game-msg"></div>
               </div>
             </div>
             <div style="min-width:260px">
@@ -386,6 +455,13 @@ R reverses the play direction (clockwise to counterclockwise or vice versa).<br>
 Play all your cards first to win. AI plays automatically on their turns, choosing the first playable card or drawing if none.<br><br>
 Press 'Mark Complete' after win or to count round early.
               </div>
+            </div>
+          </div>
+          <div class="video-wrapper">
+            <h4 style="margin:0 0 6px; font-size:13px;display:inline">Tutorial Video</h4>
+            <button class="toggle-video" onclick="toggleVideo(this)">Expand Video Player</button>
+            <div class="video-container">
+              <video controls width="100%" src="VID/Tutorials/Uno.mp4"></video>
             </div>
           </div>
         </section>
@@ -455,7 +531,14 @@ function incRound(){
 function completeRound(name){
   playSound('select');
   incRound();
-  alert('Marked as complete: ' + name + '. Rounds counted: ' + roundsCompleted);
+  const msgMap = {
+    'TicTacToe': 'ticMsg',
+    'PatternMemory': 'simonMsg',
+    'Battleship': 'bshipMsg',
+    'UNO': 'unoMsg'
+  };
+  const msgEl = document.getElementById(msgMap[name]);
+  if(msgEl) msgEl.textContent = 'Marked as complete: ' + name + '. Rounds counted: ' + roundsCompleted;
 }
 function enableFinish(){
   const fb = document.getElementById('finishHeaderBtn');
@@ -463,7 +546,7 @@ function enableFinish(){
 }
 function openForm(e){
   if(e) e.preventDefault();
-  if(roundsCompleted < 2){ playSound('selectUnable'); alert('Please complete at least 2 rounds across games to proceed to the feedback form.'); return; }
+  if(roundsCompleted < 2){ playSound('selectUnable'); document.getElementById('headerMsg').textContent = 'Please complete at least 2 rounds across games to proceed to the feedback form.'; return; }
   playSound('select');
   window.open(GOOGLE_FORM, '_blank');
 }
@@ -530,7 +613,7 @@ function sStart(){ playSound('select'); simonSeq=[]; simonLevel=0; sNext(); }
 function sNext(){ simonLevel++; document.getElementById('sLevel').textContent = simonLevel; if(simonLevel> sBest){ sBest=simonLevel; document.getElementById('sBest').textContent=sBest; } const colorsArr=['red','green','blue','yellow']; simonSeq.push(colorsArr[Math.floor(Math.random()*colorsArr.length)]); setTimeout(playSequence, 800); }
 function playSequence(){ simonBusy=true; simonInput=[]; let i=0; const tick=()=>{ if(i>=simonSeq.length){ simonBusy=false; return; } flashPad(simonSeq[i]); i++; setTimeout(tick,520); }; tick(); }
 function flashPad(color){ const el = padEls.find(p=>p.dataset.color===color); if(!el) return; el.style.filter='brightness(1.3)'; playSound('simonSeq'); setTimeout(()=>el.style.filter='',300); }
-padEls.forEach(p=>{ p.addEventListener('click', ()=>{ if(simonBusy){ playSound('selectUnable'); return; } const col=p.dataset.color; simonInput.push(col); playSound('simonClick'); flashPad(col); const idx=simonInput.length-1; if(simonInput[idx]!==simonSeq[idx]){ playSound('selectUnable'); alert('Wrong pattern — try again from start of level'); simonInput=[]; playSequence(); return; } if(simonInput.length===simonSeq.length){ if(simonLevel>=5){ playSound('win'); alert('Great — you reached level ' + simonLevel + '!'); incRound(); } setTimeout(sNext,400); } }); });
+padEls.forEach(p=>{ p.addEventListener('click', ()=>{ if(simonBusy){ playSound('selectUnable'); return; } const col=p.dataset.color; simonInput.push(col); playSound('simonClick'); flashPad(col); const idx=simonInput.length-1; if(simonInput[idx]!==simonSeq[idx]){ playSound('selectUnable'); document.getElementById('simonMsg').textContent = 'Wrong pattern — try again from start of level'; simonInput=[]; playSequence(); return; } if(simonInput.length===simonSeq.length){ if(simonLevel>=5){ playSound('win'); document.getElementById('simonMsg').textContent = 'Great — you reached level ' + simonLevel + '!'; incRound(); } setTimeout(sNext,400); } }); });
 document.getElementById('sStart').addEventListener('click', sStart);
 /* ========= Battleship ========= */
 const pBoard = document.getElementById('playerBoard');
@@ -636,7 +719,7 @@ function fireAt(r,c){
     }
     bGameOver = true;
     // small user-visible notification in addition to bStatus
-    setTimeout(()=>{ alert('Victory — you sank all enemy ships!'); }, 50);
+    setTimeout(()=>{ document.getElementById('bshipMsg').textContent = 'Victory — you sank all enemy ships!'; }, 50);
     return;
   }
   bTurn='enemy';
@@ -659,7 +742,7 @@ function enemyShot(){
     do { 
       r = Math.floor(Math.random() * BSZ); 
       c = Math.floor(Math.random() * BSZ); 
-      tries++;
+      tries++
       if (tries > 1000) { bStatus.textContent = 'Error: No valid cells left to shoot.'; bGameOver = true; return; }
     } while (playerGrid[r][c] === 'M' || playerGrid[r][c] === 'H');
   } else if (diff === 'hard' || diff === 'veryhard') {
@@ -675,7 +758,7 @@ function enemyShot(){
       do { 
         r = Math.floor(Math.random() * BSZ); 
         c = Math.floor(Math.random() * BSZ); 
-        tries++;
+        tries++
         if (tries > 1000) { bStatus.textContent = 'Error: No valid cells left to shoot.'; bGameOver = true; return; }
       } while (playerGrid[r][c] === 'M' || playerGrid[r][c] === 'H');
     }
@@ -694,7 +777,7 @@ function enemyShot(){
       do { 
         r = Math.floor(Math.random() * BSZ); 
         c = Math.floor(Math.random() * BSZ); 
-        tries++;
+        tries++
         if (tries > 1000) { bStatus.textContent = 'Error: No valid cells left to shoot.'; bGameOver = true; return; }
       } while (playerGrid[r][c] === 'M' || playerGrid[r][c] === 'H');
     }
@@ -728,7 +811,7 @@ function enemyShot(){
   if (playerShips.every(s => s.hits >= s.len)) {
     bStatus.textContent = 'Enemy wins. Your ships sunk.';
     bGameOver = true;
-    setTimeout(() => { alert('Defeat — all your ships were sunk.'); }, 50);
+    setTimeout(() => { document.getElementById('bshipMsg').textContent = 'Defeat — all your ships were sunk.'; }, 50);
     return;
   }
   bTurn = 'player';
@@ -797,9 +880,9 @@ function getPlayerLabel(index){
 }
 function canPlay(card, top){ return card.color === top.color || card.val === top.val; }
 function playerPlayCard(idx){
-  if(unoPlayerIndex !== 0){ playSound('selectUnable'); return alert('Not your turn yet'); }
+  if(unoPlayerIndex !== 0){ playSound('selectUnable'); document.getElementById('unoMsg').textContent = 'Not your turn yet'; return; }
   const card = playerHand[idx];
-  if(!canPlay(card, unoTop)){ playSound('selectUnable'); return alert('Cannot play that card. Draw 1 or play matching color/number.'); }
+  if(!canPlay(card, unoTop)){ playSound('selectUnable'); document.getElementById('unoMsg').textContent = 'Cannot play that card. Draw 1 or play matching color/number.'; return; }
   playSound('unoPlace');
   playerHand.splice(idx,1); unoDiscard.push(card); unoTop = card;
   if(card.val === 'S'){ advanceTurn(true); }
@@ -810,7 +893,7 @@ function playerPlayCard(idx){
 function drawCardFromDeck(userClicked=false){
   if(userClicked){
     if(isDrawing) return;
-    if(unoPlayerIndex !== 0){ playSound('selectUnable'); return alert('Not your turn'); }
+    if(unoPlayerIndex !== 0){ playSound('selectUnable'); document.getElementById('unoMsg').textContent = 'Not your turn'; return; }
     playSound('unoDeck');
     isDrawing = true;
   }
@@ -854,8 +937,8 @@ function aiPlayIfNeeded(){
   }
 }
 function checkUnoWinner(){
-  if(playerHand.length === 0){ playSound('win'); alert('You won UNO!'); incRound(); startUno(); return; }
-  for(let i=0;i<aiHands.length;i++) if(aiHands[i].length === 0){ alert('AI won — match over.'); startUno(); return; }
+  if(playerHand.length === 0){ playSound('win'); document.getElementById('unoMsg').textContent = 'You won UNO!'; incRound(); startUno(); return; }
+  for(let i=0;i<aiHands.length;i++) if(aiHands[i].length === 0){ document.getElementById('unoMsg').textContent = 'AI won — match over.'; startUno(); return; }
 }
 function writeUnoTurn(){ document.getElementById('unoTurn').textContent = getPlayerLabel(unoPlayerIndex); }
 /* initialize */
@@ -893,6 +976,17 @@ function initAudioControls() {
     sfxMuted = !sfxMuted;
     muteSFXBtn.textContent = sfxMuted ? 'Unmute SFX' : 'Mute SFX';
   });
+}
+/* Video Toggle */
+function toggleVideo(btn) {
+  const container = btn.nextElementSibling;
+  if (container.classList.contains('visible')) {
+    container.classList.remove('visible');
+    btn.textContent = 'Expand Video Player';
+  } else {
+    container.classList.add('visible');
+    btn.textContent = 'Collapse Video Player';
+  }
 }
 </script>
 </body>
