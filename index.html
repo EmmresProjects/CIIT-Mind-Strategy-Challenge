@@ -214,17 +214,13 @@
     max-height: 500px; 
   }
   .toggle-video { 
-    background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); 
-    color: white; 
+    background: transparent; 
+    color: var(--accent-1); 
     border: none; 
-    padding: 8px 12px; 
-    border-radius: 8px; 
-    font-weight: 700; 
     cursor: pointer; 
-    box-shadow: 0 8px 18px rgba(0,0,0,0.45); 
     font-size: 13px; 
+    padding: 0; 
     margin-left: 10px; 
-    text-align: center;
   }
   .instructions-btn { 
     background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); 
@@ -333,7 +329,7 @@
           </div>
           <div class="video-wrapper">
             <h4 style="margin:0 0 6px; font-size:13px;display:inline">Tutorial Video</h4>
-            <button class="toggle-video" onclick="toggleVideo(this)">Expand Video Player</button>
+            <button class="btn small toggle-video" onclick="toggleVideo(this)">Expand Video Player</button>
             <div class="video-container">
               <video controls width="100%" src="VID/Tutorials/TicTacToe.mp4"></video>
             </div>
@@ -369,7 +365,7 @@
           </div>
           <div class="video-wrapper">
             <h4 style="margin:0 0 6px; font-size:13px;display:inline">Tutorial Video</h4>
-            <button class="toggle-video" onclick="toggleVideo(this)">Expand Video Player</button>
+            <button class="btn small toggle-video" onclick="toggleVideo(this)">Expand Video Player</button>
             <div class="video-container">
               <video controls width="100%" src="VID/Tutorials/PatternMemory.mp4"></video>
             </div>
@@ -420,7 +416,7 @@
           </div>
           <div class="video-wrapper">
             <h4 style="margin:0 0 6px; font-size:13px;display:inline">Tutorial Video</h4>
-            <button class="toggle-video" onclick="toggleVideo(this)">Expand Video Player</button>
+            <button class="btn small toggle-video" onclick="toggleVideo(this)">Expand Video Player</button>
             <div class="video-container">
               <video controls width="100%" src="VID/Tutorials/Battleship.mp4"></video>
             </div>
@@ -489,7 +485,7 @@ Press 'Mark Complete' after win or to count round early.
           </div>
           <div class="video-wrapper">
             <h4 style="margin:0 0 6px; font-size:13px;display:inline">Tutorial Video</h4>
-            <button class="toggle-video" onclick="toggleVideo(this)">Expand Video Player</button>
+            <button class="btn small toggle-video" onclick="toggleVideo(this)">Expand Video Player</button>
             <div class="video-container">
               <video controls width="100%" src="VID/Tutorials/Uno.mp4"></video>
             </div>
@@ -498,7 +494,7 @@ Press 'Mark Complete' after win or to count round early.
       </div>
     </main>
     <footer>
-      <div style="display:flex;gap:10px;align-items:center"><div style="font-weight:700">CIIT Mind & Strategy</div><div style="color:var(--muted);font-size:12px">Play, Learn, Compete</div><div style="color:var(--muted);font-size:12px">|</div><button id="muteMusic" class="btn small">Mute Music</button><div style="color:var(--muted);font-size:12px">|</div><button id="muteSFX" class="btn small">Mute SFX</button></div>
+      <div style="display:flex;gap:10px;align-items:center"><div style="font-weight:700">CIIT Mind & Strategy</div><div style="color:var(--muted);font-size:12px">Play, Learn, Compete</div><div style="color:var(--muted);font-size:12px">|</div><button id="muteMusic" style="background:transparent;border:none;color:var(--muted);font-size:12px;cursor:pointer;padding:0">Mute Music</button><div style="color:var(--muted);font-size:12px">|</div><button id="muteSFX" style="background:transparent;border:none;color:var(--muted);font-size:12px;cursor:pointer;padding:0">Mute SFX</button></div>
       <div style="color:var(--muted);font-size:12px">Completed rounds: <strong id="footCount">0</strong></div>
     </footer>
   </div>
@@ -998,13 +994,11 @@ function initAudioControls() {
   const muteMusicBtn = document.getElementById('muteMusic');
   const muteSFXBtn = document.getElementById('muteSFX');
   muteMusicBtn.addEventListener('click', () => {
-    if(!sfxMuted) playSound('select');
     musicMuted = !musicMuted;
     muteMusicBtn.textContent = musicMuted ? 'Unmute Music' : 'Mute Music';
     if(musicMuted) bgm.pause(); else bgm.play().catch(e => console.log('BGM play error:', e));
   });
   muteSFXBtn.addEventListener('click', () => {
-    if(!sfxMuted) playSound('select');
     sfxMuted = !sfxMuted;
     muteSFXBtn.textContent = sfxMuted ? 'Unmute SFX' : 'Mute SFX';
   });
